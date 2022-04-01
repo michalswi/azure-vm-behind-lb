@@ -50,7 +50,7 @@ demo@demon:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 
-# Run app
+# Run whatismyip app
 
 demo@demon:~$ git clone https://github.com/michalswi/whatismyip.git
 demo@demon:~$ cd whatismyip
@@ -61,10 +61,12 @@ demo@demon:~$ SERVER_PORT=80 make docker-run-bridge
 # Test
 
 $ curl $NAME.westeurope.cloudapp.azure.com
+$ curl $NAME.westeurope.cloudapp.azure.com/ip
 
 OR
 
 $ firefox $NAME.westeurope.cloudapp.azure.com
+$ firefox $NAME.westeurope.cloudapp.azure.com/ip
 
 
 $ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
