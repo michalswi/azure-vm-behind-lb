@@ -1,0 +1,6 @@
+#cloud-config
+package_upgrade: true
+runcmd:
+  - sudo apt update
+  - sudo apt install -y make
+  - sudo apt install -y docker.io

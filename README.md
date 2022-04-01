@@ -1,0 +1,82 @@
+
+Adjust values [here](./variables.tf) if needed for:
+- **VM size**, by default it's `Standard_B1s`
+- **Azure region**, by default it's `West Europe`
+
+**whatismyip** GitHub [link](https://github.com/michalswi/whatismyip).
+
+```
+# Log in to Azure
+
+$ az login
+
+
+# Generate ssh key
+
+$ ssh-keygen -t rsa -b 2048 -N "" -f ./demo -C "demo@demon"
+
+
+# Deploy Azure LB and VM
+
+$ terraform init
+$ terraform plan -out=out.plan
+$ terraform apply out.plan -auto-approve
+
+
+# Verify ports
+
+$ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
+(...)
+PORT   STATE  SERVICE
+22/tcp open   ssh
+80/tcp closed http
+
+
+# Register your public IP 
+
+$ NAME=demo-$RANDOM
+$ ./fqdn.sh <LB_public_IP> $NAME
+<$NAME>.westeurope.cloudapp.azure.com
+
+
+# Configure docker on VM
+
+$ ssh -i <priv_key> -l demo <LB_public_IP>
+demo@demon:~$ sudo usermod -aG docker $(whoami)
+demo@demon:~$ exit        // log out from VM and log in
+
+$ ssh -i <priv_key> -l demo <LB_public_IP>
+demo@demon:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+
+# Run app
+
+demo@demon:~$ git clone https://github.com/michalswi/whatismyip.git
+demo@demon:~$ cd whatismyip
+
+demo@demon:~$ SERVER_PORT=80 make docker-run-bridge
+
+
+# Test
+
+$ curl $NAME.westeurope.cloudapp.azure.com
+
+OR
+
+$ firefox $NAME.westeurope.cloudapp.azure.com
+
+
+$ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
+(...)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
+
+# Destroy Azure resources
+
+$ terraform destroy -auto-approve
+$ rm -rf .terraform* terraform.tfstate* out.plan
+
+```
