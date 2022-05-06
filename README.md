@@ -20,7 +20,7 @@ $ ssh-keygen -t rsa -b 2048 -N "" -f ./demo -C "demo@demon"
 
 $ terraform init
 $ terraform plan -out=out.plan
-$ terraform apply out.plan -auto-approve
+$ terraform apply out.plan
 
 
 # Verify ports
