@@ -20,8 +20,7 @@ $ ssh-keygen -t rsa -b 2048 -N "" -f ./demo -C "demo@demon"
 
 $ PUB_IP=<your_public_facing_ip>
 $ terraform init
-$ terraform plan -var ip_whitelist='["$PUB_IP"]' -out=out.plan
-$ terraform apply out.plan
+$ terraform apply -var ip_whitelist='["$PUB_IP"]'
 
 
 # Verify ports
