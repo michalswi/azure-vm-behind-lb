@@ -1,3 +1,7 @@
+locals {
+  ip_whitelist = [var.public_ip]
+}
+
 resource "azurerm_resource_group" "rg" {
   name     = "${var.name}-rg"
   location = var.location
@@ -39,7 +43,7 @@ resource "azurerm_network_security_group" "nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = var.ip_whitelist[0]
+    source_address_prefix      = local.ip_whitelist[0]
     destination_address_prefix = "*"
   }
 

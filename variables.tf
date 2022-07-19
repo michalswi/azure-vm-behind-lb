@@ -12,7 +12,7 @@ variable "vm_size" {
   default = "Standard_B1s"
 }
 
-variable "ip_whitelist" {
+variable "public_ip" {
   description = "IP address allowed to ssh"
-  type        = list(any)
+  type        = string
 }

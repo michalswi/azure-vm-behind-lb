@@ -20,7 +20,7 @@ $ ssh-keygen -t rsa -b 2048 -N "" -f ./demo -C "demo@demon"
 
 $ PUB_IP=<your_public_facing_ip>
 $ terraform init
-$ terraform apply -var ip_whitelist='["$PUB_IP"]'
+$ terraform apply -var public_ip=$PUB_IP
 
 
 # Verify ports
@@ -77,6 +77,6 @@ $ firefox $NAME.westeurope.cloudapp.azure.com/ip
 
 # Destroy Azure resources
 
-$ terraform destroy -auto-approve -var ip_whitelist='["$PUB_IP"]'
-$ rm -rf .terraform* terraform.tfstate* out.plan
+$ terraform destroy -auto-approve -var public_ip=$PUB_IP
+$ rm -rf .terraform* terraform.tfstate* out.plan demo*
 ```
