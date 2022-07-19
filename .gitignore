@@ -2,4 +2,4 @@
 terraform.tfstate*
 demo*
 __*
-out.plan
+*.plan

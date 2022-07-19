@@ -11,3 +11,8 @@ variable "location" {
 variable "vm_size" {
   default = "Standard_B1s"
 }
+
+variable "ip_whitelist" {
+  description = "IP address allowed to ssh"
+  type        = list(any)
+}

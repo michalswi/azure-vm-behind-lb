@@ -18,8 +18,9 @@ $ ssh-keygen -t rsa -b 2048 -N "" -f ./demo -C "demo@demon"
 
 # Deploy Azure LB and VM
 
+$ PUB_IP=<your_public_facing_ip>
 $ terraform init
-$ terraform plan -out=out.plan
+$ terraform plan -var ip_whitelist='["$PUB_IP"]' -out=out.plan
 $ terraform apply out.plan
 
 
@@ -60,6 +61,12 @@ demo@demon:~$ SERVER_PORT=80 make docker-run-bridge
 
 # Test
 
+$ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
+(...)
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+
 $ curl $NAME.westeurope.cloudapp.azure.com
 $ curl $NAME.westeurope.cloudapp.azure.com/ip
 
@@ -69,16 +76,8 @@ $ firefox $NAME.westeurope.cloudapp.azure.com
 $ firefox $NAME.westeurope.cloudapp.azure.com/ip
 
 
-$ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
-(...)
-PORT   STATE SERVICE
-22/tcp open  ssh
-80/tcp open  http
-
-
 # Destroy Azure resources
 
-$ terraform destroy -auto-approve
+$ terraform destroy -auto-approve -var ip_whitelist='["$PUB_IP"]'
 $ rm -rf .terraform* terraform.tfstate* out.plan
-
 ```
