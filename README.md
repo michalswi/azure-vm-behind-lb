@@ -2,25 +2,26 @@
 Adjust values [here](./variables.tf) if needed for:
 - **VM size**, by default it's `Standard_B1s`
 - **Azure region**, by default it's `West Europe`
+- **Public IP**, your public IP address allowed to ssh to VM
 
 **whatismyip** GitHub [link](https://github.com/michalswi/whatismyip).
 
 ```
 # Log in to Azure
 
-$ az login
+az login
 
 
 # Generate ssh key
 
-$ ssh-keygen -t rsa -b 2048 -N "" -f ./demo -C "demo@demon"
+ssh-keygen -t rsa -b 2048 -N "" -f ./demo -C "demo@demon"
 
 
 # Deploy Azure LB and VM
 
-$ PUB_IP=<your_public_facing_ip>
-$ terraform init
-$ terraform apply -var public_ip=$PUB_IP
+PUB_IP=<your_public_facing_ip>
+terraform init
+terraform apply -var public_ip=$PUB_IP
 
 
 # Verify ports
@@ -58,7 +59,7 @@ demo@demon:~$ cd whatismyip
 demo@demon:~$ SERVER_PORT=80 make docker-run-bridge
 
 
-# Test
+# Test (only HTTP no HTTPS)
 
 $ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
 (...)
@@ -66,17 +67,17 @@ PORT   STATE SERVICE
 22/tcp open  ssh
 80/tcp open  http
 
-$ curl $NAME.westeurope.cloudapp.azure.com
-$ curl $NAME.westeurope.cloudapp.azure.com/ip
+curl $NAME.westeurope.cloudapp.azure.com
+curl $NAME.westeurope.cloudapp.azure.com/ip
 
 OR
 
-$ firefox $NAME.westeurope.cloudapp.azure.com
-$ firefox $NAME.westeurope.cloudapp.azure.com/ip
+firefox $NAME.westeurope.cloudapp.azure.com
+firefox $NAME.westeurope.cloudapp.azure.com/ip
 
 
 # Destroy Azure resources
 
-$ terraform destroy -auto-approve -var public_ip=$PUB_IP
-$ rm -rf .terraform* terraform.tfstate* out.plan demo*
+terraform destroy -auto-approve -var public_ip=$PUB_IP
+./clear.sh
 ```
