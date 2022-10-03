@@ -58,6 +58,18 @@ resource "azurerm_network_security_group" "nsg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+
+  security_rule {
+    name                       = "https443"
+    priority                   = 310
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "443"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 }
 
 resource "azurerm_network_interface" "nic" {
@@ -164,6 +176,17 @@ resource "azurerm_lb_rule" "http80" {
   protocol                       = "Tcp"
   frontend_port                  = 80
   backend_port                   = 80
+  frontend_ip_configuration_name = "PublicIPAddress"
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.backendpool.id]
+}
+
+resource "azurerm_lb_rule" "http443" {
+  resource_group_name            = azurerm_resource_group.rg.name
+  loadbalancer_id                = azurerm_lb.lb.id
+  name                           = "HTTPSLBRule"
+  protocol                       = "Tcp"
+  frontend_port                  = 443
+  backend_port                   = 443
   frontend_ip_configuration_name = "PublicIPAddress"
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.backendpool.id]
 }
