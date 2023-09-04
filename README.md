@@ -68,9 +68,10 @@ demo@demon:~$ SERVER_PORT=80 make docker-run-bridge
 
 $ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
 (...)
-PORT   STATE SERVICE
-22/tcp open  ssh
-80/tcp open  http
+PORT    STATE  SERVICE
+22/tcp  open   ssh
+80/tcp  open   http
+443/tcp closed https
 
 curl $NAME.westeurope.cloudapp.azure.com
 curl $NAME.westeurope.cloudapp.azure.com/ip
