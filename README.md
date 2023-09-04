@@ -1,3 +1,7 @@
+![](https://img.shields.io/github/issues/michalswi/azure-vm-behind-lb)
+![](https://img.shields.io/github/forks/michalswi/azure-vm-behind-lb)
+![](https://img.shields.io/github/stars/michalswi/azure-vm-behind-lb)
+![](https://img.shields.io/github/last-commit/michalswi/azure-vm-behind-lb)
 
 Adjust values [here](./variables.tf) if needed for:
 - **VM size**, by default it's `Standard_B1s`
@@ -26,11 +30,12 @@ terraform apply -var public_ip=$PUB_IP
 
 # Verify ports
 
-$ sudo nmap -v -Pn -p 22,80 <LB_public_IP>
+$ sudo nmap -v -Pn -p 22,80,443 <LB_public_IP>
 (...)
-PORT   STATE  SERVICE
-22/tcp open   ssh
-80/tcp closed http
+PORT    STATE  SERVICE
+22/tcp  open   ssh
+80/tcp  closed http
+443/tcp closed https
 
 
 # Register your public IP 

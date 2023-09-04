@@ -170,7 +170,6 @@ resource "azurerm_network_interface_nat_rule_association" "sshnatrule" {
 }
 
 resource "azurerm_lb_rule" "http80" {
-  resource_group_name            = azurerm_resource_group.rg.name
   loadbalancer_id                = azurerm_lb.lb.id
   name                           = "HTTPLBRule"
   protocol                       = "Tcp"
@@ -181,7 +180,6 @@ resource "azurerm_lb_rule" "http80" {
 }
 
 resource "azurerm_lb_rule" "http443" {
-  resource_group_name            = azurerm_resource_group.rg.name
   loadbalancer_id                = azurerm_lb.lb.id
   name                           = "HTTPSLBRule"
   protocol                       = "Tcp"
